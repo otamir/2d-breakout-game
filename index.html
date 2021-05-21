@@ -43,6 +43,11 @@
         var dx = 2;
         var dy = 2;
         var radius = 50;
+        var color = randomHsl();
+
+        function randomHsl() {
+            return 'hsla(' + (Math.random() * 360) + ', 100%, 50%, 1)';
+        }
 
         // resize the canvas to fill browser window dynamically
         window.addEventListener('resize', resizeCanvas, false);
@@ -60,23 +65,27 @@
             x += dx;
             y += dy;
             if (x - radius < 0) {
-             dx = -dx;
+                dx = -dx;
+                color = randomHsl();
             }
             if (x + radius > canvas.width) {
                 dx = -dx;
+                color = randomHsl();
             }
             if (y + radius > canvas.height) {
                 dy = -dy;
+                color = randomHsl();
             }
             if (y - radius < 0) {
                 dy = -dy;
+                color = randomHsl();
             }
         }
 
         function drawBall() {
             ctx.beginPath();
             ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = "green";
+            ctx.fillStyle = color;
             ctx.fill();
             ctx.closePath();
         }
