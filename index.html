@@ -38,10 +38,11 @@
     <script>
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = 100;
-        var y = 100;
+        var x = 200;
+        var y = 200;
         var dx = 2;
         var dy = 2;
+        var radius = 50;
 
         // resize the canvas to fill browser window dynamically
         window.addEventListener('resize', resizeCanvas, false);
@@ -58,11 +59,23 @@
             drawBall();
             x += dx;
             y += dy;
+            if (x - radius < 0) {
+             dx = -dx;
+            }
+            if (x + radius > canvas.width) {
+                dx = -dx;
+            }
+            if (y + radius > canvas.height) {
+                dy = -dy;
+            }
+            if (y - radius < 0) {
+                dy = -dy;
+            }
         }
 
         function drawBall() {
             ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fillStyle = "green";
             ctx.fill();
             ctx.closePath();
