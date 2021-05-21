@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤪</text></svg>" />
     <title>המשחק הראשון שלי</title>
     <style>
         /* to remove the top and left whitespace */
@@ -31,11 +33,15 @@
 
 <body>
 
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <canvas id="myCanvas" />
 
     <script>
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
+        var x = 100;
+        var y = 100;
+        var dx = 2;
+        var dy = 2;
 
         // resize the canvas to fill browser window dynamically
         window.addEventListener('resize', resizeCanvas, false);
@@ -43,29 +49,26 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            drawStuff();
+            draw();
         }
         resizeCanvas();
 
-        function drawStuff() {
-            ctx.beginPath();
-            ctx.rect(140, 60, 200, 200);
-            ctx.fillStyle = "magenta";
-            ctx.fill();
-            ctx.closePath();
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            x += dx;
+            y += dy;
+        }
 
+        function drawBall() {
             ctx.beginPath();
-            ctx.rect(140 + 25, 60 + 25, 50, 25);
-            ctx.fillStyle = "blue";
-            ctx.fill();
-            ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(240 + 25, 60 + 25, 50, 25);
-            ctx.fillStyle = "blue";
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fillStyle = "green";
             ctx.fill();
             ctx.closePath();
         }
+
+        setInterval(draw, 10);
     </script>
 
 </body>
