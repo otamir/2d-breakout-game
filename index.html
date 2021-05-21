@@ -134,9 +134,10 @@
             if (ball_y + ball_dy > canvas.height) {
                 alert("המשחק נגמר");
                 document.location.reload();
-                clearInterval(interval); 
+                clearInterval(interval);
             }
-            if (ball_y + ball_dy + ball_radius > paddle_y && ball_x + ball_radius > paddle_x && ball_x - ball_radius < paddle_x + paddleWidth) {
+            if (ball_y + ball_dy + ball_radius > paddle_y && ball_y + ball_dy - ball_radius < paddle_y + PaddleHeight && ball_x + ball_radius > paddle_x && ball_x - ball_radius < paddle_x + paddleWidth) {
+                ball_y = paddle_y - ball_radius;
                 ball_dy = -ball_dy;
                 ball_color = randomHsl();
             }
