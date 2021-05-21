@@ -41,8 +41,8 @@
 
         var ball_x = 200;
         var ball_y = 200;
-        var ball_dx = 2;
-        var ball_dy = -2;
+        var ball_dx = 4;
+        var ball_dy = -4;
         var ball_radius = 20;
         var ball_color = randomHsl();
 
@@ -120,23 +120,28 @@
             drawPaddle();
 
             if (ball_x + ball_dx - ball_radius < 0) {
+                beep(25, 880);
                 ball_dx = -ball_dx;
                 ball_color = randomHsl();
             }
             if (ball_x + ball_dx + ball_radius > canvas.width) {
+                beep(25, 880);
                 ball_dx = -ball_dx;
                 ball_color = randomHsl();
             }
             if (ball_y + ball_dy - ball_radius < 0) {
+                beep(25, 880);
                 ball_dy = -ball_dy;
                 ball_color = randomHsl();
             }
             if (ball_y + ball_dy > canvas.height) {
+                beep();
                 alert("המשחק נגמר");
                 document.location.reload();
                 clearInterval(interval);
             }
             if (ball_y + ball_dy + ball_radius > paddle_y && ball_y + ball_dy - ball_radius < paddle_y + PaddleHeight && ball_x + ball_radius > paddle_x && ball_x - ball_radius < paddle_x + paddleWidth) {
+                beep(25, 1760);
                 ball_y = paddle_y - ball_radius;
                 ball_dy = -ball_dy;
                 ball_color = randomHsl();
@@ -169,6 +174,34 @@
             ctx.fill();
             ctx.closePath();
         }
+
+
+        //if you have another AudioContext class use that one, as some browsers have a limit
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+
+        //All arguments are optional:
+
+        //duration of the tone in milliseconds. Default is 500
+        //frequency of the tone in hertz. default is 440
+        //volume of the tone. Default is 1, off is 0.
+        //type of tone. Possible values are sine, square, sawtooth, triangle, and custom. Default is sine.
+        //callback to use on end of tone
+        function beep(duration, frequency, volume, type, callback) {
+            var oscillator = audioCtx.createOscillator();
+            var gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (volume) { gainNode.gain.value = volume; }
+            if (frequency) { oscillator.frequency.value = frequency; }
+            if (type) { oscillator.type = type; }
+            if (callback) { oscillator.onended = callback; }
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + ((duration || 50) / 1000));
+        };
+
 
     </script>
 
