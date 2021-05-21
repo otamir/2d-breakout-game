@@ -67,9 +67,11 @@
             for (var i = 0; i < touches.length; i++) {
                 if (touches[i].pageX < canvas.width / 2) {
                     leftPressed = true;
+                    beep(25, 1318);
                 }
                 if (touches[i].pageX > canvas.width / 2) {
                     rightPressed = true;
+                    beep(25, 1396);
                 }
             }
         }
@@ -82,20 +84,20 @@
         function keyDownHandler(e) {
             if (e.key == "Right" || e.key == "ArrowRight") {
                 rightPressed = true;
+                beep(25, 1318);
             }
             else if (e.key == "Left" || e.key == "ArrowLeft") {
                 leftPressed = true;
+                beep(25, 1396);
             }
         }
 
         function keyUpHandler(e) {
             if (e.key == "Right" || e.key == "ArrowRight") {
                 rightPressed = false;
-                beep(25, 1318);
             }
             else if (e.key == "Left" || e.key == "ArrowLeft") {
                 leftPressed = false;
-                beep(25, 1396);
             }
         }
 
