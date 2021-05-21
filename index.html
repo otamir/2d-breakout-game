@@ -41,21 +41,44 @@
 
         var ball_x = 200;
         var ball_y = 200;
-        var ball_dx = 10;
-        var ball_dy = 10;
+        var ball_dx = 2;
+        var ball_dy = 2;
         var ball_radius = 20;
         var ball_color = randomHsl();
 
         var paddle_x;
         var paddle_y;
-        var paddleWidth = 100;
+        var paddleWidth = 200;
         var PaddleHeight = 20;
 
         var rightPressed = false;
         var leftPressed = false;
 
+        var interval = setInterval(draw, 10);
+
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
+
+        canvas.addEventListener("touchstart", handleTouchStart, false);
+        canvas.addEventListener("touchend", handleTouchEnd, false);
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            var touches = e.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                if (touches[i].pageX < canvas.width / 2) {
+                    leftPressed = true;
+                }
+                if (touches[i].pageX > canvas.width / 2) {
+                    rightPressed = true;
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            leftPressed = false;
+            rightPressed = false;
+        }
 
         function keyDownHandler(e) {
             if (e.key == "Right" || e.key == "ArrowRight") {
@@ -89,7 +112,7 @@
         }
         resizeCanvas();
         paddle_x = canvas.width / 2;
-        paddle_y = canvas.height - 100;
+        paddle_y = canvas.height - PaddleHeight - 50;
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -104,14 +127,20 @@
                 ball_dx = -ball_dx;
                 ball_color = randomHsl();
             }
-            if (ball_y + ball_dy + ball_radius > canvas.height) {
-                ball_dy = -ball_dy;
-                ball_color = randomHsl();
-            }
             if (ball_y + ball_dy - ball_radius < 0) {
                 ball_dy = -ball_dy;
                 ball_color = randomHsl();
             }
+            if (ball_y + ball_dy > canvas.height) {
+                alert("המשחק נגמר");
+                document.location.reload();
+                clearInterval(interval); 
+            }
+            if (ball_y + ball_dy + ball_radius > paddle_y && ball_x + ball_radius > paddle_x && ball_x - ball_radius < paddle_x + paddleWidth) {
+                ball_dy = -ball_dy;
+                ball_color = randomHsl();
+            }
+
 
             ball_x += ball_dx;
             ball_y += ball_dy;
@@ -140,7 +169,6 @@
             ctx.closePath();
         }
 
-        setInterval(draw, 10);
     </script>
 
 </body>
