@@ -32,7 +32,6 @@
 </head>
 
 <body>
-
     <canvas id="myCanvas" />
 
     <script>
@@ -92,9 +91,11 @@
         function keyUpHandler(e) {
             if (e.key == "Right" || e.key == "ArrowRight") {
                 rightPressed = false;
+                beep(25, 1318);
             }
             else if (e.key == "Left" || e.key == "ArrowLeft") {
                 leftPressed = false;
+                beep(25, 1396);
             }
         }
 
@@ -141,12 +142,11 @@
                 clearInterval(interval);
             }
             if (ball_y + ball_dy + ball_radius > paddle_y && ball_y + ball_dy - ball_radius < paddle_y + PaddleHeight && ball_x + ball_radius > paddle_x && ball_x - ball_radius < paddle_x + paddleWidth) {
-                beep(25, 1760);
+                beep(25, 1046);
                 ball_y = paddle_y - ball_radius;
                 ball_dy = -ball_dy;
                 ball_color = randomHsl();
             }
-
 
             ball_x += ball_dx;
             ball_y += ball_dy;
