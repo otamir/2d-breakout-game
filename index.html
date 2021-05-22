@@ -17,7 +17,7 @@
 
         /* To remove the scrollbars */
         canvas {
-            background: #eee;
+            background: #000;
             display: block;
             margin: 0 auto;
         }
@@ -40,14 +40,14 @@
 
         var ball_x = 200;
         var ball_y = 200;
-        var ball_dx = 4;
-        var ball_dy = -4;
+        var ball_dx = 6;
+        var ball_dy = -6;
         var ball_radius = 20;
         var ball_color = randomHsl();
 
         var paddle_x;
         var paddle_y;
-        var paddleWidth = 200;
+        var paddleWidth = 100;
         var PaddleHeight = 20;
 
         var rightPressed = false;
@@ -83,12 +83,16 @@
 
         function keyDownHandler(e) {
             if (e.key == "Right" || e.key == "ArrowRight") {
-                rightPressed = true;
-                beep(25, 1318);
+                if (!rightPressed) {
+                    beep(25, 1318);
+                    rightPressed = true;
+                }
             }
             else if (e.key == "Left" || e.key == "ArrowLeft") {
-                leftPressed = true;
-                beep(25, 1396);
+                if (!leftPressed) {
+                    beep(25, 1396);
+                    leftPressed = true;
+                }
             }
         }
 
